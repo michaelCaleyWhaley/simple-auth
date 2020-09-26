@@ -1,6 +1,4 @@
-export default (userName, password) => {
-  
-  
+export default ({ mongoose, db, userName, password }) => {
   db.once("open", async () => {
     console.log(`LOG: two`);
 
@@ -9,11 +7,12 @@ export default (userName, password) => {
     });
     const Kitten = mongoose.model("Kitten", kittySchema);
 
-    const fluffy = new Kitten({ name: "Michael" });
+    const fluffy = new Kitten({ name: "Sophie" });
     // fluffy.save(function (err, fluffy) {
     //   if (err) return console.error(err);
     //   res.send("hello world");
     // });
     await fluffy.save();
+    return;
   });
 };

@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "build": "webpack",
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,5 +13,13 @@
   "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^5.10.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "babel-loader": "^8.1.0",
+    "start-server-webpack-plugin": "^2.2.5",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-node-externals": "^2.5.2"
   }
 }
