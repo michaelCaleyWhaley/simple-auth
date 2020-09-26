@@ -1,18 +1,17 @@
-export default ({ mongoose, db, userName, password }) => {
-  db.once("open", async () => {
-    console.log(`LOG: two`);
+import mongoose from "mongoose";
 
-    const kittySchema = new mongoose.Schema({
-      name: String,
-    });
-    const Kitten = mongoose.model("Kitten", kittySchema);
+const userSchema = new mongoose.Schema({
+  name: String,
+});
+const User = mongoose.model("user", userSchema);
 
-    const fluffy = new Kitten({ name: "Sophie" });
-    // fluffy.save(function (err, fluffy) {
-    //   if (err) return console.error(err);
-    //   res.send("hello world");
-    // });
-    await fluffy.save();
-    return;
+export default async ({ db, userName, password }) => {
+  await db.once("open", async () => {
+    const newUser = new User({ name: userName });
+
+    const savedUser = await newUser.save();
+    console.log(`savedUser: `, savedUser);
+
+    mongoose.disconnect();
   });
 };
