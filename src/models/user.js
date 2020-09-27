@@ -1,23 +1,10 @@
-var mongoose = require("mongoose");
-var Todo = mongoose.model("Todo", {
-  text: {
-    type: String,
-    required: true,
-    minlength: 1,
-    trim: true,
-  },
-  completed: {
-    type: Boolean,
-    default: false,
-  },
-  completedAt: {
-    type: Number,
-    default: null,
-  },
-  _creator: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
+import mongoose from "mongoose";
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  password: String,
 });
 
-module.exports = { Todo };
+const User = mongoose.model("user", userSchema);
+
+export default User;

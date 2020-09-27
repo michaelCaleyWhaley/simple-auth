@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
 
+import { mongoUri } from "../../../config";
+
 export default () => {
   mongoose
-    .connect("mongodb://127.0.0.1:27017", {
+    .connect(mongoUri, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     })
