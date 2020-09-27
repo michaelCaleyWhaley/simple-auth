@@ -9,12 +9,6 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use((req, res, next) => {
-  console.log(`req: `, req);
-
-  console.log("Time: %d", Date.now());
-  next();
-});
 
 const db = mongoConnect();
 
@@ -34,6 +28,27 @@ app.post("/register", async (req, res) => {
   await registerUser({ db, username, password });
   res.status(200).send({ success: "All good" });
 });
+
+// app.post("/login", async (req, res) => {
+//   const { username, password } = req.body;
+//   if (!username || !password) {
+//     res.status(400).send({ error: "Username or password missing" });
+//     return;
+//   }
+
+//   const existingUser = await User.findOne({ name: username });
+//   if (!existingUser) {
+//     res.status(409).send({ error: "Username does not exist." });
+//     return;
+//   }
+
+//   if (password === existingUser.password) {
+//     res.status(200).send({ success: "Successful login." });
+//     return;
+//   }
+
+//   res.status(400).send({ error: "Unknown error." });
+// });
 
 app.listen(3000);
 console.log("The app is listening on port 3000");
