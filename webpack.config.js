@@ -3,9 +3,9 @@ const nodeExternals = require("webpack-node-externals");
 const StartServerPlugin = require("start-server-webpack-plugin");
 
 module.exports = {
-  entry: "./src/app.js",
+  entry: "./src/server.js",
   output: {
-    filename: "app.js",
+    filename: "server.js",
     path: path.resolve(__dirname, "dist"),
   },
   mode: "production",
@@ -31,7 +31,7 @@ module.exports = {
   },
   plugins: [
     new StartServerPlugin({
-      name: "app.js",
+      name: "server.js",
       // nodeArgs: ["--inspect"],
       // args: ["scriptArgument1", "scriptArgument2"],
       signal: false,
