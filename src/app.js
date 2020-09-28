@@ -1,11 +1,11 @@
 import express from "express";
 import bodyParser from "body-parser";
-import bcrypt from "bcrypt";
 
 import User from "./models/user";
 import mongoConnect from "./helpers/mongo/connect";
 import registerUser from "./helpers/mongo/registerUser";
 import isValidPassword from "./helpers/mongo/isValidPassword";
+import { appPort } from "../config";
 
 const app = express();
 
@@ -17,7 +17,7 @@ const db = mongoConnect();
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
-    res.status(400).send({ error: "Username or password missing" });
+    res.status(400).send({ error: "Username or password missing." });
     return;
   }
   const isExistingUser = await User.findOne({ name: username });
@@ -26,13 +26,13 @@ app.post("/register", async (req, res) => {
     return;
   }
   await registerUser({ db, username, password });
-  res.status(200).send({ success: "All good" });
+  res.status(200).send({ success: "User registered." });
 });
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
-    res.status(400).send({ error: "Username or password missing" });
+    res.status(400).send({ error: "Username or password missing." });
     return;
   }
   const hasValidPassword = await isValidPassword({ username, password });
@@ -43,5 +43,5 @@ app.post("/login", async (req, res) => {
   res.status(200).send({ success: "Successful login." });
 });
 
-app.listen(3000);
-console.log("The app is listening on port 3000");
+app.listen(appPort);
+console.log(`The app is listening on port ${appPort}.`);
