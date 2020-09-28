@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema({
     trim: true,
     required: true,
   },
+  accessToken: {
+    type: String,
+    trim: true,
+  },
 });
 
 const saltRounds = 10;

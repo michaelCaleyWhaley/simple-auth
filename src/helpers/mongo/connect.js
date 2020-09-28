@@ -7,6 +7,7 @@ export default () => {
     .connect(mongoUri, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
+      useFindAndModify: false,
     })
     .catch((e) => {
       console.log(`error: `, e);

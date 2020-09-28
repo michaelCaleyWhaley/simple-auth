@@ -2,10 +2,10 @@ import express from "express";
 import bodyParser from "body-parser";
 
 import User from "./models/user";
+import { appPort } from "../config";
 import mongoConnect from "./helpers/mongo/connect";
 import registerUser from "./helpers/mongo/registerUser";
-import isValidPassword from "./helpers/mongo/isValidPassword";
-import { appPort } from "../config";
+import validateUser from "./helpers/mongo/validateUser";
 
 const app = express();
 
@@ -35,12 +35,16 @@ app.post("/login", async (req, res) => {
     res.status(400).send({ error: "Username or password missing." });
     return;
   }
-  const hasValidPassword = await isValidPassword({ username, password });
-  if (!hasValidPassword) {
+  const validatedUser = await validateUser({ username, password });
+  if (!validatedUser.result) {
     res.status(404).send({ error: "Unsuccessful login." });
     return;
   }
-  res.status(200).send({ success: "Successful login." });
+
+  res
+    .header("x-auth", validatedUser.updatedUser.accessToken)
+    .status(200)
+    .send({ success: "Successful login." });
 });
 
 app.listen(appPort);
