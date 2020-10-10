@@ -25,8 +25,11 @@ app.post("/register", async (req, res) => {
     res.status(409).send({ error: "Username already exists." });
     return;
   }
-  await registerUser({ db, username, password });
-  res.status(200).send({ success: "User registered." });
+  const newUser = await registerUser({ db, username, password });
+  res
+    .header("x-auth", newUser.accessToken)
+    .status(200)
+    .send({ success: "User registered." });
 });
 
 app.post("/login", async (req, res) => {

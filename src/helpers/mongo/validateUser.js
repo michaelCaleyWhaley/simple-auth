@@ -8,6 +8,9 @@ export default async ({ username, password }) => {
     return { result: false };
   }
 
+  const result = await bcrypt.compare(password, existingUser.password);
+  if (!result) return { result };
+
   const updatedUser = await User.findOneAndUpdate(
     { name: username },
     {
@@ -15,6 +18,5 @@ export default async ({ username, password }) => {
     }
   );
 
-  const result = await bcrypt.compare(password, existingUser.password);
   return { result, updatedUser };
 };
