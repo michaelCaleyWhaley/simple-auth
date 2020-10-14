@@ -50,5 +50,7 @@ app.post("/login", async (req, res) => {
     .send({ success: "Successful login." });
 });
 
+app.get("/test", () => {});
+
 app.listen(appPort);
 console.log(`The app is listening on port ${appPort}.`);
