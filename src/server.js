@@ -7,6 +7,8 @@ import mongoConnect from "./helpers/mongo/connect";
 import registerUser from "./helpers/mongo/registerUser";
 import validateUser from "./helpers/mongo/validateUser";
 
+import { miliSecondsMonth } from "./constants";
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -37,7 +39,10 @@ app.post("/register", async (req, res) => {
   }
   const newUser = await registerUser({ db, username, password });
   res
-    .header("x-auth", newUser.accessToken)
+    .cookie("x-auth", newUser.accessToken, {
+      expires: new Date(Date.now() + miliSecondsMonth),
+      httpOnly: true,
+    })
     .status(200)
     .send({ success: "User registered." });
 });
@@ -55,7 +60,10 @@ app.post("/login", async (req, res) => {
   }
 
   res
-    .header("x-auth", validatedUser.updatedUser.accessToken)
+    .cookie("x-auth", validatedUser.updatedUser.accessToken, {
+      expires: new Date(Date.now() + miliSecondsMonth),
+      httpOnly: true,
+    })
     .status(200)
     .send({ success: "Successful login." });
 });
