@@ -6,6 +6,7 @@ import { appPort } from "../config";
 import mongoConnect from "./helpers/mongo/connect";
 import registerUser from "./helpers/mongo/registerUser";
 import validateUser from "./helpers/mongo/validateUser";
+import validateToken from "./middleware/validateToken";
 
 import { miliSecondsMonth } from "./constants";
 
@@ -47,7 +48,7 @@ app.post("/register", async (req, res) => {
     .send({ success: "User registered." });
 });
 
-app.post("/login", async (req, res) => {
+app.post("/login", validateToken, async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
     res.status(400).send({ error: "Username or password missing." });
@@ -66,6 +67,10 @@ app.post("/login", async (req, res) => {
     })
     .status(200)
     .send({ success: "Successful login." });
+});
+
+app.post("/user", (req, res) => {
+  res.send("success");
 });
 
 app.listen(appPort);
